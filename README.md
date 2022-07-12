@@ -16,10 +16,15 @@ The top level directory also contains various subroutines of POUNDERS, which wil
 To simply see a sample run of the code and get a sense of how to call SAM_POUNDERS on your own problems, use the just_one_run.m function with the following snippet:
 
 test_function = 'rosenbrock'; % Uses the Rosenbrock test function
+
 data_type = 'imbalanced'; % Uses imbalanced mode of data generation
+
 macro_seed = 1; micro_seed = 1; % Sets a random seed for problem generation
+
 b = 1; % Specifies that the resource size is 1
+
 num_epochs = 100; % allow for 100 effective passes through the component functions
+
 m = 16; % For this problem, specifies that problem dimension and number of component functions is 16
 
 ###INSTRUCTIONS to run all of the experiments illustrated in the paper:
