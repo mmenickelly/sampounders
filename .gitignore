@@ -1,0 +1,12 @@
+# Ignore Mac system files
+.DS_store
+
+# Ignore local results
+*.csv
+*.mat
+
+# Ignore local images
+*.eps
+*.pdf
+
+
