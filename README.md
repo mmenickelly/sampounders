@@ -12,7 +12,7 @@ https://arnold-neumaier.at/software/minq/
 
 We only include it here because we have made some edits for our own purposes, and this is the easiest way to distribute those edits. 
 
-The top level directory also contains various subroutines of POUNDERS, which will be publicly available soon. However, formquad_indep.m is non-standard in POUNDERS, and is sufficiently different, meaning it cannot just be an external dependcy. POUNDERS belongs to Stefan M. Wild, a coauthor on this paper. 
+The top level directory also contains various subroutines of POUNDERS, which will be publicly available soon. However, formquad_indep.m is non-standard in POUNDERS, and is sufficiently different, meaning it cannot just be an external dependency. POUNDERS belongs to Stefan M. Wild, a coauthor on this paper. 
 
 ###RUN SAM_POUNDERS: 
 
@@ -32,7 +32,7 @@ m = 16; % For this problem, specifies that problem dimension and number of compo
 
 ###INSTRUCTIONS to run all of the experiments illustrated in the paper:
 
-First, for the SAG experiments, you obvious need to install SAG (as suggested, we used a mex of the C code).
+First, for the SAG experiments, you must install SAG. As suggested, we used a mex of the C code in our experiments.
 This is not our method, and belongs to Mark Schmidt. It can be downloaded here:
 https://www.cs.ubc.ca/~schmidtm/Software/SAG.html
 
@@ -41,7 +41,7 @@ run_experimentX.m
 functions, where the X is integers 1:6.
 For the paper, we ran all integer macro_seeds 1:30. 
 
-This will generate a lot of mat files and put them into a results/ directory within the tests/ directory. 
+This will generate a lot of .mat files and put them into a results/ directory within the tests/ directory. 
 
 You should then run
 
