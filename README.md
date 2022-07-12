@@ -38,7 +38,7 @@ https://www.cs.ubc.ca/~schmidtm/Software/SAG.html
 
 run_experimentX.m 
 
-functions, where the X is integers 1:6.
+functions, where the X is integers 1:6 and also the string _sag. 
 For the paper, we ran all integer macro_seeds 1:30. 
 
 This will generate a lot of .mat files and put them into a results/ directory within the tests/ directory. 
