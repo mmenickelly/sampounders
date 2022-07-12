@@ -2,13 +2,13 @@ Code to accompany Stochastic Average Models paper, currently available at (arXiv
 
 ### DISCLAIMER: This is research code, and comes with absolutely no guarantees. Please email me directly at mmenickelly@anl.gov for help/questions. 
 
-### IMPORTANT: The top level directory of this code contains minq5. This code belongs to Arnold Neumaier and can be downloaded here, but be aware version 5 is no longer maintained 
+### IMPORTANT CREDITS: The top level directory of this code contains minq5. This code belongs to Arnold Neumaier and can be downloaded here, but be aware version 5 is no longer maintained 
 https://arnold-neumaier.at/software/minq/ 
 We only include it here because we have made some edits for our own purposes, and this is the easiest way to distribute those edits. 
 
-To simply see a sample run of the code and get a sense of how to call SAM_POUNDERS on your own problems, use the just_one_run.m function with the following snippet:
+The top level directory also contains various subroutines of POUNDERS, which will be publicly available soon. However, formquad_indep.m is non-standard in POUNDERS, and is sufficiently different, meaning it cannot just be an external dependcy. POUNDERS belongs to Stefan M. Wild, a coauthor on this paper. 
 
-test_function = 'rosenbrock'; % Uses the Rosenbrock test function
+To simply see a sample run of the code and get a sense of how to call SAM_POUNDERS on your own problems, use the just_one_run.m function with the following snippet:test_function = 'rosenbrock'; % Uses the Rosenbrock test function
 data_type = 'imbalanced'; % Uses imbalanced mode of data generation
 macro_seed = 1; micro_seed = 1; % Sets a random seed for problem generation
 b = 1; % Specifies that the resource size is 1
