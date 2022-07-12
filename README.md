@@ -2,8 +2,10 @@ Code to accompany Stochastic Average Models paper, currently available at (arXiv
 
 ### DISCLAIMER: This is research code, and comes with absolutely no guarantees. Please email me directly at mmenickelly@anl.gov for help/questions. 
 
-### IMPORTANT CREDITS: The top level directory of this code contains minq5. This code belongs to Arnold Neumaier and can be downloaded here, but be aware version 5 is no longer maintained 
+### IMPORTANT CREDITS: The top level directory of this code contains minq5. This code belongs to Arnold Neumaier and can be downloaded here, but be aware version 5 is no longer maintained:
+
 https://arnold-neumaier.at/software/minq/ 
+
 We only include it here because we have made some edits for our own purposes, and this is the easiest way to distribute those edits. 
 
 The top level directory also contains various subroutines of POUNDERS, which will be publicly available soon. However, formquad_indep.m is non-standard in POUNDERS, and is sufficiently different, meaning it cannot just be an external dependcy. POUNDERS belongs to Stefan M. Wild, a coauthor on this paper. 
