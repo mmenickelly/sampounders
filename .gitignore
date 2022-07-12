@@ -9,4 +9,5 @@
 *.eps
 *.pdf
 
-
+# SAG directory
+tests/SAG
