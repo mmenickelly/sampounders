@@ -1,4 +1,4 @@
-Code to accompany Stochastic Average Models paper, currently available at (arXiv preprint URL here)
+Code to accompany Stochastic Average Models paper, currently available at (https://arxiv.org/abs/2207.06305).
 
 ###DISCLAIMER: 
 
