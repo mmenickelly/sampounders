@@ -1,4 +1,4 @@
-function [nf,Eval,Res,X,F,Hres,lipY,G,H,Gres] = update_model_centers_and_models(fun,xkin,n,m,subset,delta,nf,Eval,center_ind,old_center_ind,Res,X,F,Fy,Gres,Hres,npmax,Par,L,U,nfmax,lipY,probs,printf,nolip) 
+function [nf,Eval,Res,X,F,Hres,lipY,G,H,Gres,Lip] = update_model_centers_and_models(fun,xkin,n,m,subset,delta,nf,Eval,center_ind,old_center_ind,Res,X,F,Fy,Gres,Hres,npmax,Par,L,U,nfmax,lipY,probs,printf,nolip,Lip) 
        
 Hresdel = zeros(n,n,m); %Gres=zeros(n,m);
 valid = zeros(1,m); np = zeros(1,m);
@@ -84,8 +84,10 @@ for j = 1:m
         H = H + Hj;
 
         % update lipschitz estimates
-        if norm(Dj) > 0 && norm(oldGresj-Gres(:,j))/norm(Dj) > lipY(j) && nolip
-            lipY(j) = norm(oldGresj-Gres(:,j))/norm(Dj);
+        newlip = norm(oldGresj-Gres(:,j))/norm(Dj);
+        if norm(Dj) > 0 && nolip && newlip > lipY(j)
+            lipY(j) = newlip;
+            Lip(xkin,j) = newlip;
         end
     end       
 end

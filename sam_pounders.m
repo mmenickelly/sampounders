@@ -1,4 +1,4 @@
-function [X,F,flag,xkin,Eval] = ...
+function [X,F,flag,xkin,Eval,Lip] = ...
     sam_pounders(fun,X0,n,npmax,nfmax,gtol,delta,nfs,m,F0,xkin,L,U,printf,batchsize,sampling,lipY)
 
 % Choose your solver:
@@ -70,6 +70,9 @@ else % Have other function values around
     nfmax = nfmax+nfs;
 end
 
+% For studying behavior of Lipschitz constant:
+Lip = F;
+
 Res = zeros(size(F)); % Stores the residuals for model updates
 Fy = F(xkin,:); Gres=zeros(n,m); Hres = zeros(n,n,m);
 center_ind = ones(1,m); % Stores model centers
@@ -85,6 +88,8 @@ else
     first_success_now = true;
     first_success_already = true;
 end
+
+Lip(1,:) = lipY; 
 
 % evaluate all components immediately:
 crit_check = true;
@@ -120,8 +125,8 @@ while sum(sum(Eval))<nfmax && delta > mindelta
     Eval(xkin,subset_m) = true;
     old_deltas(subset_m) = delta;
     
-    [nf,Eval,Res,X,F,Hres,lipY,G,H,Gres] = ... 
-        update_model_centers_and_models(fun,xkin,n,m,subset_m,delta,nf,Eval,center_ind,old_center_ind,Res,X,F,Fy,Gres,Hres,npmax,Par,L,U,nfmax,lipY,probs_m,printf,nolip);
+    [nf,Eval,Res,X,F,Hres,lipY,G,H,Gres,Lip] = ... 
+        update_model_centers_and_models(fun,xkin,n,m,subset_m,delta,nf,Eval,center_ind,old_center_ind,Res,X,F,Fy,Gres,Hres,npmax,Par,L,U,nfmax,lipY,probs_m,printf,nolip,Lip);
         
     %% Step 2.5: Check for small gradient norm and acceptability
     
@@ -279,11 +284,11 @@ function [subset,probs,var] = adaptive_selection_tr(X,fY,lipY,batchsize,delta,ol
             probs = ones(1,m);
             probs(sortinds(1:k)) = (cb + k - m)*errors(sortinds(1:k))/cumsorted(k);
             probs = max(probs,eps); 
-            subset = datasample(1:m, cb,'Replace',false,'Weights',probs);
+            subset = get_subset(probs,cb);
         end
 
         var = sum(((1.0./probs)-1.0).*errors.^2);
-        if var < pi_param*C_param^2*min(1.0,delta)^4
+        if var < pi_param*C_param^2*delta^4
             break
         else
             cb = cb + batchsize;
@@ -347,11 +352,12 @@ function [subset,probs,var] = adaptive_selection_twopt(X,s,fY,lipY,batchsize,del
             probs = ones(1,m);
             probs(sortinds(1:k)) = (cb + k - m)*errors(sortinds(1:k))/cumsorted(k);
             probs = max(probs,eps); 
-            subset = datasample(selectable, cb,'Replace',false,'Weights',probs(selectable));
+            subset = get_subset(probs(selectable),cb);
+            subset = selectable(subset);
         end
 
         var = sum(((1.0./probs)-1.0).*errors.^2);
-        if var < pi_param*C_param^2*min(1.0,delta)^4
+        if var < pi_param*C_param^2*delta^4
             break
         else
             cb = cb + batchsize;

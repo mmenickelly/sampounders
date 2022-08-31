@@ -1,6 +1,6 @@
-function hlt = just_one_run(test_function,data_type,macro_seed,micro_seed,b,num_epochs,m)
+function [Lip,hlt] = just_one_run(test_function,data_type,macro_seed,micro_seed,b,num_epochs,m)
 
-addpath('~/asynchpounders20/code/sam/');
+addpath('~/sampounders/');
 global spsolver
 
 nonzerocolor = [0 0.447 0.741];
@@ -43,6 +43,7 @@ elseif strcmp(test_function,'logistic')
     X0 = data.w_init';
     lambda = 1e-1; % just to make strongly convex
     lipY = (sum(0.25*(data.x_train).^2) + lambda)/m;
+    %lipY = lambda*ones(m,1)/m; 
     func = @(x,Set)log_reg(x,Set,data.x_train,data.y_train,lambda);
     solver = 'fo';
 else
@@ -71,15 +72,16 @@ yyaxis left
 %ax1 = axes(hlt, 'NextPlot', 'add', 'YAxisLocation', 'right', 'Box', 'on');
 rng(micro_seed); % Controls randomness of run (as opposed to generation of problem data) 
 if strcmp(solver,'fo')
-    [X,~,~,~,Eval] = sam_fo(func,X0,n,npmax,nfmax,gtol,delta,nfs,m,F0,xind,Low,Upp,printf,b,'adaptive',lipY);
+    [X,~,~,~,Eval,Lip] = sam_fo(func,X0,n,npmax,nfmax,gtol,delta,nfs,m,F0,xind,Low,Upp,printf,b,'adaptive',lipY);
     a = sum(Eval,2);
     iters = nnz(a);
+    Lip = Lip(1:iters,:);
     hlspy = imshow(~Eval(1:iters,:)',[nonzerocolor;1.0 1.0 1.0])%,'Parent',ax1);
     axis on;
     totals = sum(Eval,1);
     
 elseif strcmp(solver,'pounders')
-    [X,~,~,~,Eval] = sam_pounders(func,X0,n,npmax,nfmax,gtol,delta,nfs,m,F0,xind,Low,Upp,printf,b,'adaptive',lipY);
+    [X,~,~,~,Eval,Lip] = sam_pounders(func,X0,n,npmax,nfmax,gtol,delta,nfs,m,F0,xind,Low,Upp,printf,b,'adaptive');%,lipY);
     if strcmp(test_function,'rosenbrock')
         % shuffle to match the paper
         savedEval = Eval;
@@ -93,6 +95,7 @@ elseif strcmp(solver,'pounders')
     %for j = 1:length(spacing)
     %    Eval2(:,j) = sum(Eval(1+(j-1)*m:j*m,:),1)';
     %end
+    Lip = Lip(1:iters,:);
     hlspy = imshow(~Eval(1:iters,:)',[nonzerocolor;1.0 1.0 1.0])%,'Parent',ax1);
     %hlspy = imshow(~Eval2,[nonzerocolor;1.0 1.0 1.0]);
     axis on;

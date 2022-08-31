@@ -1,4 +1,4 @@
-function [X,F,flag,xkin,Eval] = ...
+function [X,F,flag,xkin,Eval,Lip] = ...
     sam_fo(fun,X0,n,npmax,nfmax,gtol,delta,nfs,m,F0,xkin,L,U,printf,batchsize,sampling,lipY)
 
 % 0. Check inputs
@@ -48,11 +48,14 @@ Eval = logical(zeros(nfmax,m)); % Stores whether eval i includes component j
 nf = 1;
 Fy = F(xkin,:);
 
+% For studying behavior of Lipschitz constant:
+Lip = F;
+
 Gres = zeros(n,m);
 center_ind = ones(1,m); % Stores model centers
 
 if nargin == 16
-    lipY = ones(1,m); % default lipschitz constant estimates
+    lipY = sqrt(eps)*ones(1,m); % default lipschitz constant estimates
     first_success_now = false; 
     first_success_already = false;
     nolip = true;
@@ -61,6 +64,8 @@ else
     first_success_already = true;
     nolip = false;
 end
+
+Lip(1,:) = lipY; 
 
 % evaluate all components immediately:
 crit_check = true;
@@ -111,8 +116,10 @@ while sum(sum(Eval))<nfmax && delta > mindelta
            
             % update Lipschitz estimates
             newlip = norm(oldGres(:,j)-Gres(:,j))/norm(Dj);
-            if norm(Dj) > 0 && newlip > lipY(j) && nolip
+            %Lip(xkin,j) = newlip; 
+            if norm(Dj) > 0 && nolip %&& newlip > lipY(j)
                 lipY(j) = newlip;
+                Lip(xkin,j) = newlip; 
             end
         end       
     end
@@ -139,8 +146,6 @@ while sum(sum(Eval))<nfmax && delta > mindelta
     
     if acceptable
        %% Step 3: Solve TRSP to compute step
-        Lows = max((L-X(xkin,:)),-delta);
-        Upps = min((U-X(xkin,:)),delta);
 
         % Subproblem solution is trivial in FO version:
         Xsp = -delta*G/norm(G); mdec = -delta*norm(G);
@@ -293,11 +298,12 @@ function [subset,probs,var] = adaptive_selection_tr(X,lipY,batchsize,delta,xkin,
             probs = ones(1,m);
             probs(sortinds(1:k)) = (cb + k - m)*errors(sortinds(1:k))/cumsorted(k);
             probs = max(probs,eps);
-            subset = datasample(selectable, cb, 'Replace', false, 'Weights', probs(selectable));
+            subset = get_subset(probs(selectable),cb);
+            subset = selectable(subset);
         end
         
         var = sum(((1.0./probs)-1.0).*errors.^2);
-        if var < pi_param*C_param^2*min(1.0,delta)^4
+        if var < pi_param*C_param^2*delta^4
             break
         else
             cb = cb + batchsize;
@@ -361,11 +367,12 @@ function [subset,probs,var] = adaptive_selection_twopt(X,lipY,batchsize,s,xkin,c
             probs = ones(1,m);
             probs(sortinds(1:k)) = (cb + k - m)*errors(sortinds(1:k))/cumsorted(k);
             probs = max(probs,eps);
-            subset = datasample(selectable, cb, 'Replace', false, 'Weights', probs(selectable));
+            subset = get_subset(probs(selectable),cb);
+            subset = selectable(subset);
         end
         
         var = sum(((1.0./probs)-1.0).*errors.^2);
-        if var < pi_param*C_param^2*min(1.0,delta)^4
+        if var < pi_param*C_param^2*delta^4
             break
         else
             cb = cb + batchsize;

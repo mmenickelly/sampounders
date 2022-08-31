@@ -26,3 +26,10 @@ if nargout == 2
     J = g/m;
 end
 end
+
+function [y] = sigmoid(x)
+% Sigmoid function.
+
+    y = 1.0 ./ (1.0 + exp(-x));
+
+end
