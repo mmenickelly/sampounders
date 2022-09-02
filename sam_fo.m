@@ -55,7 +55,7 @@ Gres = zeros(n,m);
 center_ind = ones(1,m); % Stores model centers
 
 if nargin == 16
-    lipY = sqrt(eps)*ones(1,m); % default lipschitz constant estimates
+    lipY = ones(1,m); % default lipschitz constant estimates
     first_success_now = false; 
     first_success_already = false;
     nolip = true;
