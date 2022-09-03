@@ -117,7 +117,7 @@ while sum(sum(Eval))<nfmax && delta > mindelta
             % update Lipschitz estimates
             newlip = norm(oldGres(:,j)-Gres(:,j))/norm(Dj);
             %Lip(xkin,j) = newlip; 
-            if norm(Dj) > 0 && nolip %&& newlip > lipY(j)
+            if norm(Dj) > 0 && newlip > lipY(j) % && nolip 
                 lipY(j) = newlip;
                 Lip(xkin,j) = newlip; 
             end
