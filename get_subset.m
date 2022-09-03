@@ -13,8 +13,18 @@ function subset = get_subset(probs,b)
     b = b - length(subset);
     if b > 0
         new_probs = get_cps_probs(smaller_probs,b);
-
-        rejected = true;
+        if abs(sum(new_probs) - b) > 1.0
+            % THIS IS A SAFEGUARD IF SOMETHING WENT NUMERICALLY AWRY. IT
+            % SHOULD TRIGGER RARELY.  
+            % 1.0 IS ARBITRARY, BUT INDICATES SOMETHING HAS GONE QUITE
+            % WRONG. 
+            warning('Something went far too wrong in the CPS computation. Doing a greedy thing on this iteration.')
+            [~,new_subset_inds] = maxk(new_probs,b); 
+            new_subset = notinds(new_subset_inds);
+            rejected = false;
+        else
+            rejected = true;
+        end
         while rejected
             % POISSON SAMPLE
             new_subset = [];
