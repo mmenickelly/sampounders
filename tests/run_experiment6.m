@@ -2,8 +2,7 @@ function run_experiment6(macro_seed)
 
     % EXPERIMENT 3: POUNDERS on cube
     
-    addpath('~/asynchpounders20/code/sam');
-    addpath('~/asynchpounders20/code/sam/minq5');
+    addpath('~/sampounders/');
 
     macro_seed = str2num(macro_seed);
 

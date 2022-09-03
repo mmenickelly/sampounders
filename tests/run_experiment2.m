@@ -2,8 +2,7 @@ function run_experiment2(macro_seed)
 
     % EXPERIMENT 2: POUNDERS on rosenbrock
     
-    addpath('~/asynchpounders20/code/sam');
-    addpath('~/asynchpounders20/code/sam/minq5');
+    addpath('~/sampounders/');
 
     macro_seed = str2num(macro_seed);
 

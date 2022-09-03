@@ -2,7 +2,7 @@ function run_experiment1(macro_seed)
 
     % EXPERIMENT 1: FO on logistic
     
-    addpath('~/asynchpounders20/code/sam');
+    addpath('~/sampounders/');
     
     macro_seed = str2num(macro_seed);
 
