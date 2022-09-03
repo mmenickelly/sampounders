@@ -72,10 +72,14 @@ function [psi] = recursive(pi_tilde,b)
     lower_psi = zeros(1,length(pi_tilde));
     scaling = pi_tilde./(1.0-pi_tilde);
     for k = 1:b    
-        psi = scaling.*(1.0 - lower_psi);
-        lower_psi = k*psi/sum(psi);
+        psi_num = scaling.*(1.0 - lower_psi);
+        psi_denom = sum(psi_num);
+        lower_psi = (1/psi_denom)*psi_num;
+        if any(lower_psi >= 1)           
+            pause()
+        end
     end
-    psi = lower_psi;
+    psi = b*lower_psi;
 end
 
 function [jip] = grad_recursive(pi_tilde,psi)

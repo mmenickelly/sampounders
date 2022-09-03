@@ -250,7 +250,7 @@ end
 
 function [subset,probs,var] = adaptive_selection_tr(X,lipY,batchsize,delta,xkin,center_ind)
     
-    pi_param = 0.01; C_param = 10*sum(lipY);
+    pi_param = 0.01; C_param = 10*sum(lipY); subset = [];
 
     Y = X(center_ind,:);
     x = X(xkin,:);
@@ -281,6 +281,7 @@ function [subset,probs,var] = adaptive_selection_tr(X,lipY,batchsize,delta,xkin,
             subset = selectable;
             probs = ones(1,m);
             var = 0;
+            stopped = true;
             break
         else
             k = m;
@@ -298,8 +299,6 @@ function [subset,probs,var] = adaptive_selection_tr(X,lipY,batchsize,delta,xkin,
             probs = ones(1,m);
             probs(sortinds(1:k)) = (cb + k - m)*errors(sortinds(1:k))/cumsorted(k);
             probs = max(probs,eps);
-            subset = get_subset(probs(selectable),cb);
-            subset = selectable(subset);
         end
         
         var = sum(((1.0./probs)-1.0).*errors.^2);
@@ -309,11 +308,15 @@ function [subset,probs,var] = adaptive_selection_tr(X,lipY,batchsize,delta,xkin,
             cb = cb + batchsize;
         end
     end
+    if isempty(subset) && ~stopped
+        subset = get_subset(probs(selectable),cb);
+        subset = selectable(subset);
+    end
 end
 
 function [subset,probs,var] = adaptive_selection_twopt(X,lipY,batchsize,s,xkin,center_ind,sense,delta)
     
-    pi_param = 0.01; C_param = 10*sum(lipY);
+    pi_param = 0.01; C_param = 10*sum(lipY); subset = [];
 
     Y = X(center_ind,:);
     x = X(xkin,:);
@@ -367,8 +370,6 @@ function [subset,probs,var] = adaptive_selection_twopt(X,lipY,batchsize,s,xkin,c
             probs = ones(1,m);
             probs(sortinds(1:k)) = (cb + k - m)*errors(sortinds(1:k))/cumsorted(k);
             probs = max(probs,eps);
-            subset = get_subset(probs(selectable),cb);
-            subset = selectable(subset);
         end
         
         var = sum(((1.0./probs)-1.0).*errors.^2);
@@ -378,5 +379,8 @@ function [subset,probs,var] = adaptive_selection_twopt(X,lipY,batchsize,s,xkin,c
             cb = cb + batchsize;
         end
     end
-
+    if isempty(subset)
+        subset = get_subset(probs(selectable),cb);
+        subset = selectable(subset);
+    end
 end

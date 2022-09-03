@@ -267,6 +267,7 @@ function [subset,probs,var] = adaptive_selection_tr(X,fY,lipY,batchsize,delta,ol
             subset = 1:m;
             probs = ones(1,m);
             var = 0;
+            stopped = true;
             break
         else
             k = m;
@@ -293,6 +294,10 @@ function [subset,probs,var] = adaptive_selection_tr(X,fY,lipY,batchsize,delta,ol
         else
             cb = cb + batchsize;
         end
+    end
+    if isempty(subset) && ~stopped
+        subset = get_subset(probs(selectable),cb);
+        subset = selectable(subset);
     end
 end
 
@@ -335,6 +340,7 @@ function [subset,probs,var] = adaptive_selection_twopt(X,s,fY,lipY,batchsize,del
             subset = selectable; 
             probs = ones(1,m); 
             var = 0; 
+            stopped = true;
             break
         else
             k = m;
@@ -362,6 +368,10 @@ function [subset,probs,var] = adaptive_selection_twopt(X,s,fY,lipY,batchsize,del
         else
             cb = cb + batchsize;
         end
+    end
+    if isempty(subset) && ~stopped
+        subset = get_subset(probs(selectable),cb);
+        subset = selectable(subset);
     end
 end
 
