@@ -236,7 +236,7 @@ end
 
 function [subset,probs,var] = adaptive_selection_tr(X,fY,lipY,batchsize,delta,old_deltas,xkin,center_ind)
     
-    pi_param = 0.01; C_param = 10*sum(lipY);
+    pi_param = 0.01; C_param = sum(lipY);
     Y = X(center_ind,:);
     x = X(xkin,:);  
     [m,n] = size(Y);
@@ -303,7 +303,7 @@ end
 
 function [subset,probs,var] = adaptive_selection_twopt(X,s,fY,lipY,batchsize,delta,old_deltas,xkin,center_ind,sense)
     
-    pi_param = 0.01; C_param = 10*sum(lipY);
+    pi_param = 0.01; C_param = sum(lipY);
     Y = X(center_ind,:);
     x = X(xkin,:);  
     [m,n] = size(Y);

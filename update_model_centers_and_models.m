@@ -85,7 +85,7 @@ for j = 1:m
 
         % update lipschitz estimates
         newlip = norm(oldGresj-Gres(:,j))/norm(Dj);
-        if norm(Dj) > 0 %&& nolip && newlip > lipY(j)
+        if norm(Dj) > 0 && nolip %%&& newlip > lipY(j)
             lipY(j) = newlip;
             Lip(xkin,j) = newlip;
         end
