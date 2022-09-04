@@ -117,7 +117,7 @@ while sum(sum(Eval))<nfmax && delta > mindelta
             % update Lipschitz estimates
             newlip = norm(oldGres(:,j)-Gres(:,j))/norm(Dj);
             %Lip(xkin,j) = newlip; 
-            if norm(Dj) > 0 && newlip > lipY(j) % && nolip 
+            if norm(Dj) > 0 && nolip %&& newlip > lipY(j) 
                 lipY(j) = newlip;
                 Lip(xkin,j) = newlip; 
             end
@@ -250,7 +250,7 @@ end
 
 function [subset,probs,var] = adaptive_selection_tr(X,lipY,batchsize,delta,xkin,center_ind)
     
-    pi_param = 0.01; C_param = 10*sum(lipY); subset = [];
+    pi_param = 0.01; C_param = sum(lipY); subset = [];
 
     Y = X(center_ind,:);
     x = X(xkin,:);
@@ -316,7 +316,7 @@ end
 
 function [subset,probs,var] = adaptive_selection_twopt(X,lipY,batchsize,s,xkin,center_ind,sense,delta)
     
-    pi_param = 0.01; C_param = 10*sum(lipY); subset = [];
+    pi_param = 0.01; C_param = sum(lipY); subset = [];
 
     Y = X(center_ind,:);
     x = X(xkin,:);
