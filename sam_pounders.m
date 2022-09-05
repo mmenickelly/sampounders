@@ -261,7 +261,7 @@ function [subset,probs,var] = adaptive_selection_tr(X,fY,lipY,batchsize,delta,ol
         cumsorted = cumsum(sorted);
     end
        
-    stopped = false; cb = batchsize;
+    stopped = false; cb = batchsize; subset = []; 
     while ~stopped
         if m <= cb
             subset = 1:m;
@@ -285,7 +285,6 @@ function [subset,probs,var] = adaptive_selection_tr(X,fY,lipY,batchsize,delta,ol
             probs = ones(1,m);
             probs(sortinds(1:k)) = (cb + k - m)*errors(sortinds(1:k))/cumsorted(k);
             probs = max(probs,eps); 
-            subset = get_subset(probs,cb);
         end
 
         var = sum(((1.0./probs)-1.0).*errors.^2);
@@ -296,8 +295,7 @@ function [subset,probs,var] = adaptive_selection_tr(X,fY,lipY,batchsize,delta,ol
         end
     end
     if isempty(subset) && ~stopped
-        subset = get_subset(probs(selectable),cb);
-        subset = selectable(subset);
+        subset = get_subset(probs,cb);
     end
 end
 
@@ -334,7 +332,7 @@ function [subset,probs,var] = adaptive_selection_twopt(X,s,fY,lipY,batchsize,del
         selectable = 1:m; ls = m; 
     end
     
-    cb = batchsize; stopped = false;
+    cb = batchsize; stopped = false; subset = [];
     while ~stopped
         if ls <= cb
             subset = selectable; 
@@ -358,8 +356,6 @@ function [subset,probs,var] = adaptive_selection_twopt(X,s,fY,lipY,batchsize,del
             probs = ones(1,m);
             probs(sortinds(1:k)) = (cb + k - m)*errors(sortinds(1:k))/cumsorted(k);
             probs = max(probs,eps); 
-            subset = get_subset(probs(selectable),cb);
-            subset = selectable(subset);
         end
 
         var = sum(((1.0./probs)-1.0).*errors.^2);
