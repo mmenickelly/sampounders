@@ -29,7 +29,7 @@ function run_experiment3(macro_seed)
         end
 
         for micro_seed = 1:num_micro_seeds
-            experiment4(test_function,experiment_type,solver,macro_seed,micro_seed,batchsizes,num_epochs,m);
+            experiment1(test_function,experiment_type,solver,macro_seed,micro_seed,batchsizes,num_epochs,m);
         end
     
     end
