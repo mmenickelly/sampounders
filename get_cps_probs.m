@@ -76,7 +76,7 @@ function [psi] = recursive(pi_tilde,b)
         psi_denom = sum(psi_num);
         lower_psi = (1/psi_denom)*psi_num;
         if any(lower_psi >= 1)           
-            pause()
+            lower_psi(lower_psi >= 1) = 1 - eps;
         end
     end
     psi = b*lower_psi;
