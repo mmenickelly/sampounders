@@ -81,7 +81,7 @@ if strcmp(solver,'fo')
     totals = sum(Eval,1);
     
 elseif strcmp(solver,'pounders')
-    [X,~,~,~,Eval,Lip] = sam_pounders(func,X0,n,npmax,nfmax,gtol,delta,nfs,m,F0,xind,Low,Upp,printf,b,'adaptive');%,lipY);
+    [X,~,~,~,Eval,Lip] = sam_pounders(func,X0,n,npmax,nfmax,gtol,delta,nfs,m,F0,xind,Low,Upp,printf,b,'adaptive',lipY);
     if strcmp(test_function,'rosenbrock')
         % shuffle to match the paper
         savedEval = Eval;

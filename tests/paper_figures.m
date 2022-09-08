@@ -650,7 +650,7 @@ if ismember(11,which_plots)
     types = {'balanced','progressive','imbalanced'};
     test_function = 'logistic';
     for j = 1:3
-        hlt = just_one_run(test_function,types{j},b,micro_seed,macro_seed,num_epochs,m);
+        [~,hlt] = just_one_run(test_function,types{j},b,micro_seed,macro_seed,num_epochs,m);
         title(hlt,titles{j},'FontSize',FS);   
         hlt.Padding = 'compact'; hlt.TileSpacing = 'compact'; 
         ylim([0.5 m+0.5]);
@@ -669,7 +669,7 @@ if ismember(12,which_plots)
     types = {'balanced','progressive','imbalanced'};
     test_function = 'rosenbrock';
     for j = 1:3
-        hlt = just_one_run(test_function,types{j},b,micro_seed,macro_seed,num_epochs,m);
+        [~,hlt] = just_one_run(test_function,types{j},b,micro_seed,macro_seed,num_epochs,m);
         title(hlt,titles{j},'FontSize',FS);   
         hlt.Padding = 'compact'; hlt.TileSpacing = 'compact'; 
         ylim([0.5 m+0.5]);
@@ -688,7 +688,7 @@ if ismember(13,which_plots)
     types = {'balanced','progressive','imbalanced'};
     test_function = 'cube';
     for j = 1:3
-        hlt = just_one_run(test_function,types{j},b,micro_seed,macro_seed,num_epochs,m);
+        [~,hlt] = just_one_run(test_function,types{j},b,micro_seed,macro_seed,num_epochs,m);
         title(hlt,titles{j},'FontSize',FS);   
         hlt.Padding = 'compact'; hlt.TileSpacing = 'compact'; 
         ylim([0.5 m+0.5]);

@@ -8,7 +8,7 @@ function run_experiment3(macro_seed)
 
     num_micro_seeds = 3;
       
-    batchsizes = [1,2,4,8,16];
+    batchsizes = [1,2,4,8];
         
     m = max(batchsizes); 
     
